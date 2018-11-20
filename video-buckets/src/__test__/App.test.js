@@ -3,6 +3,7 @@ import { shallow } from 'enzyme';
 import App from '../App';
 
 it('renders without crashing', () => {
+  expect.assertions(1);
   const wrapper = shallow(<App />);
-  expect(wrapper.find('div').text('Hello'))
+  expect(wrapper.find('div').text()).toBe('<Navigation /><Buckets />');
 });
