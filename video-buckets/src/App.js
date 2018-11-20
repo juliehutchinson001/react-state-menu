@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './styles/css/main.css';
 import Navigation from './components/navigation';
+import Buckets from './components/buckets';
 
 class App extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class App extends Component {
         value: '',
         type: ''
       },
-      bucket: {
+      buckets: {
         general: [],
       },
     };
@@ -21,7 +22,7 @@ class App extends Component {
     return (
       <div className="App">
         <Navigation />
-        <Main />
+        <Buckets />
       </div>
     );
   }
