@@ -19,8 +19,8 @@ class App extends Component {
     };
 
     this.openVideoBucketEntryForm = this.openVideoBucketEntryForm.bind(this);
-    // this.createNewBucket = this.createNewBucket.bind(this);
-    // this.createNewVideo = this.createNewVideo.bind(this);
+    this.createBucket = this.createBucket.bind(this);
+    this.createVideo = this.createVideo.bind(this);
   }
 
   openVideoBucketEntryForm(event, typeOfEntry) {
@@ -49,7 +49,6 @@ class App extends Component {
       newVideoInformation.description = videoDescription;
 
       const newVideoEntry = [...oldState.buckets.general, newVideoInformation];
-
       return { buckets: { general: newVideoEntry } };
     });
   }
@@ -71,6 +70,7 @@ class App extends Component {
       <AppPresentation
         openVideoBucketEntryForm={ this.openVideoBucketEntryForm }
         handleUpdateVideoBucketInputs={ event => this.handleUpdateVideoBucketInputs(event) }
+        formToCreate={ this.state.formToCreate }
         create={ formToCreate === 'video' ? this.createVideo : formToCreate === 'bucket' ? this.createBucket : '' }
       />
     );
@@ -82,6 +82,7 @@ const AppPresentation = (props) => {
     openVideoBucketEntryForm,
     create,
     handleUpdateVideoBucketInputs,
+    formToCreate,
   } = props;
 
   return (
@@ -89,6 +90,7 @@ const AppPresentation = (props) => {
       <Navigation
         openVideoBucketEntryForm={ openVideoBucketEntryForm }
         handleUpdateVideoBucketInputs={ handleUpdateVideoBucketInputs }
+        formToCreate={ formToCreate }
         create={ create }
       />
     </div>
