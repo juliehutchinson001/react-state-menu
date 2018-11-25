@@ -1,34 +1,42 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const Navigation = (props) => {
-    const {
-        create,
-        openVideoBucketEntryForm,
-        handleUpdateVideoBucketInputs,
-    } = props;
 
-    return (
-        <header>
-            <button
-                type='button'
-                data-video='video'
-                onClick={ event => openVideoBucketEntryForm(event, 'video') }
-            >
-                New Video
-            </button>
-            <button
-                type='button'
-                data-bucket='bucket'
-                onClick={ event => openVideoBucketEntryForm(event, 'bucket') }
-            >
-                New Bucket
-            </button>
-            <Form
-                create={ create }
-                handleUpdateVideoBucketInputs={ handleUpdateVideoBucketInputs }
-            />
-        </header>
-    )
+class Navigation extends Component {
+    render() {
+        const {
+            create,
+            openVideoBucketEntryForm,
+            handleUpdateVideoBucketInputs,
+            formToCreate,
+        } = this.props;
+
+        return (
+            <header>
+                <button
+                    type='button'
+                    data-video='video'
+                    onClick={ event => {
+                        openVideoBucketEntryForm(event, 'video')
+                    } }
+                >
+                    New Video
+                </button>
+                <button
+                    type='button'
+                    data-bucket='bucket'
+                    onClick={ event => openVideoBucketEntryForm(event, 'bucket') }
+                >
+                    New Bucket
+                </button>
+                {
+                    formToCreate && <Form
+                        create={ create }
+                        handleUpdateVideoBucketInputs={ handleUpdateVideoBucketInputs }
+                    />
+                }
+            </header>
+        )
+    }
 };
 
 const Form = (props) => {
