@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import './styles/css/main.css';
 import Navigation from './components/navigation';
-import Buckets from './components/buckets';
+// import Buckets from './components/buckets';
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      button: null,
+      formToCreate: '',
       input: {
         name: '',
         description: '',
-        type: ''
       },
       buckets: {
         general: [],
@@ -26,44 +25,53 @@ class App extends Component {
 
   openVideoBucketEntryForm(event, typeOfEntry) {
     const videoBucketFormId = event.target.dataset;
-
     const newEntryFormToBeOpened = (
       typeOfEntry === 'video'
       ? videoBucketFormId.video
       : videoBucketFormId.bucket
     );
 
-    this.setState({ button: newEntryFormToBeOpened });
+    this.setState({ formToCreate: newEntryFormToBeOpened });
   }
 
-  createNewBucket(event) {
+  createBucket(event) {
     event.preventDefault();
   }
 
-  createNewVideo(event) {
+  createVideo(event) {
     event.preventDefault();
+
+    this.setState(oldState => {
+      const videoName = oldState.input.name;
+      const videoDescription = oldState.input.description;
+      const newVideoInformation = {};
+      newVideoInformation.name = videoName;
+      newVideoInformation.description = videoDescription;
+
+      const newVideoEntry = [...oldState.buckets.general, newVideoInformation];
+
+      return { buckets: { general: newVideoEntry } };
+    });
   }
 
   handleUpdateVideoBucketInputs(event) {
-    const updatedVideoBucketName = event.target.value;
-    const updatedVideoBucketProperty = event.target.name;
+    const newValue = event.target.value;
+    const inputType = event.target.name;
 
     this.setState(oldState => {
       const newInputValues = Object.assign({}, oldState.input);
-      newInputValues[updatedVideoBucketProperty] = updatedVideoBucketName;
+      newInputValues[inputType] = newValue;
       return { input: newInputValues };
     });
   }
 
-
   render() {
+    const { formToCreate } = this.state;
     return (
       <AppPresentation
         openVideoBucketEntryForm={ this.openVideoBucketEntryForm }
-        buttonPressed={ this.state.button }
-        createNewBucket={ event => this.createNewBucket(event) }
-        createNewVideo={ event => this.createNewVideo(event) }
         handleUpdateVideoBucketInputs={ event => this.handleUpdateVideoBucketInputs(event) }
+        create={ formToCreate === 'video' ? this.createVideo : formToCreate === 'bucket' ? this.createBucket : '' }
       />
     );
   }
@@ -72,9 +80,7 @@ class App extends Component {
 const AppPresentation = (props) => {
   const {
     openVideoBucketEntryForm,
-    buttonPressed,
-    createNewBucket,
-    createNewVideo,
+    create,
     handleUpdateVideoBucketInputs,
   } = props;
 
@@ -82,12 +88,9 @@ const AppPresentation = (props) => {
     <div className="App">
       <Navigation
         openVideoBucketEntryForm={ openVideoBucketEntryForm }
-        buttonPressed={ buttonPressed }
-        createNewBucket={ createNewBucket }
-        createNewVideo={ createNewVideo }
         handleUpdateVideoBucketInputs={ handleUpdateVideoBucketInputs }
+        create={ create }
       />
-      <Buckets />
     </div>
   );
 }
