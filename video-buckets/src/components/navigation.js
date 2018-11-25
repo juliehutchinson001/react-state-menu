@@ -2,10 +2,8 @@ import React from 'react';
 
 const Navigation = (props) => {
     const {
-        buttonPressed,
+        create,
         openVideoBucketEntryForm,
-        createNewBucket,
-        createNewVideo,
         handleUpdateVideoBucketInputs,
     } = props;
 
@@ -13,50 +11,37 @@ const Navigation = (props) => {
         <header>
             <button
                 type='button'
-                data-video={ 1 }
-                onClick={ openVideoBucketEntryForm(event, 'video') }
+                data-video='video'
+                onClick={ event => openVideoBucketEntryForm(event, 'video') }
             >
                 New Video
             </button>
-            {
-                buttonPressed === 1
-                    && <Form
-                        createNewVideo={ createNewVideo }
-                        handleUpdateVideoBucketInputs={ handleUpdateVideoBucketInputs }
-                    />
-            }
             <button
                 type='button'
-                data-bucket={ 2 }
-                onClick={ openVideoBucketEntryForm(event, 'bucket') }
+                data-bucket='bucket'
+                onClick={ event => openVideoBucketEntryForm(event, 'bucket') }
             >
                 New Bucket
             </button>
-            {
-                buttonPressed === 2
-                    && <Form
-                            createNewBucket={ createNewBucket }
-                            handleUpdateVideoBucketInputs={ handleUpdateVideoBucketInputs }
-                        />
-            }
+            <Form
+                create={ create }
+                handleUpdateVideoBucketInputs={ handleUpdateVideoBucketInputs }
+            />
         </header>
     )
 };
 
 const Form = (props) => {
     const {
-        buttonPressed,
-        createNewVideo,
-        createNewBucket,
+        create,
         handleUpdateVideoBucketInputs,
     } = props;
 
     return (
-        <form onSubmit={ buttonPressed === 1 ? createNewVideo : createNewBucket }>
+        <form onSubmit={ create }>
             <label> Name
                 <input
                     type='text'
-                    value='name'
                     name='name'
                     required
                     placeholder='Enter a new name'
@@ -66,7 +51,6 @@ const Form = (props) => {
             <label> Description
                 <input
                     type='text'
-                    value='description'
                     name='description'
                     placeholder='Enter a description'
                     onChange={ handleUpdateVideoBucketInputs }
