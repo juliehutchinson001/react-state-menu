@@ -34,13 +34,28 @@ class App extends Component {
     this.setState({ formToCreate: newEntryFormToBeOpened });
   }
 
-  createBucket(event) {
+  createBucket(event) {  /* {  test: { description: '', videos: [] } } */
     event.preventDefault();
+    this.setState(oldState => {
+      const bucketName = oldState.input.name;
+      const bucketDescription = oldState.input.description;
+      const newBucketInformation = {};
+
+      newBucketInformation[bucketName] = {};
+      newBucketInformation[bucketName].description = bucketDescription;
+      newBucketInformation[bucketName].videos = [];
+
+      const updatedBucketList = Object.assign({}, oldState.buckets, newBucketInformation);
+
+      return {
+        buckets: updatedBucketList,
+        formToCreate: ''
+      };
+    })
   }
 
   createVideo(event) {
     event.preventDefault();
-
     this.setState(oldState => {
       const videoName = oldState.input.name;
       const videoDescription = oldState.input.description;
@@ -49,7 +64,10 @@ class App extends Component {
       newVideoInformation.description = videoDescription;
 
       const newVideoEntry = [...oldState.buckets.general, newVideoInformation];
-      return { buckets: { general: newVideoEntry } };
+      return {
+        buckets: { general: newVideoEntry },
+        formToCreate: ''
+      };
     });
   }
 
