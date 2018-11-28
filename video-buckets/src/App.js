@@ -36,6 +36,7 @@ class App extends Component {
 
   createBucket(event) {  /* {  test: { description: '', videos: [] } } */
     event.preventDefault();
+
     this.setState(oldState => {
       const bucketName = oldState.input.name;
       const bucketDescription = oldState.input.description;
