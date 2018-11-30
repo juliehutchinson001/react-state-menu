@@ -66,12 +66,16 @@ class App extends Component {
       const videoName = oldState.input.name;
       const videoDescription = oldState.input.description;
       const newVideoInformation = {};
+
       newVideoInformation.name = videoName;
       newVideoInformation.description = videoDescription;
 
       const newVideoEntry = [...oldState.buckets.general.videos, newVideoInformation];
+      const generalBucket = { general: { description: '', videos: newVideoEntry} };
+      const buckets = Object.assign({}, oldState.buckets, generalBucket);
+
       return {
-        buckets: { general: { description: '', videos: newVideoEntry} },
+        buckets,
         formToCreate: ''
       };
     });
@@ -98,16 +102,20 @@ class App extends Component {
     }
   }
 
+//                 {name, descrp}, name:'buck', name: 'general'
   addVideoToBucket(videoToInsert, newLocation, currentLocation) {
     this.setState(oldState => {
       const newBucketList = {};
       const currentBucket = oldState.buckets[currentLocation];
+      const newBucketLoc = oldState.buckets[newLocation];
 
-      newBucketList[currentLocation] = currentBucket.videos.filter(video => video.name !== videoToInsert);
-      newBucketList[newLocation] = [...oldState.buckets[newLocation].videos, videoToInsert];
+      newBucketList[currentLocation] = {description: ''};
+      newBucketList[newLocation] = {};
+      newBucketList[newLocation].description = newBucketLoc.description;
+      newBucketList[currentLocation].videos = currentBucket.videos.filter(video => video.name !== videoToInsert.name);
+      newBucketList[newLocation].videos = [...oldState.buckets[newLocation].videos, videoToInsert];
 
       const newState = Object.assign({}, oldState.buckets, newBucketList);
-
       return {
           buckets: newState
       };
