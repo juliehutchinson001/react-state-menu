@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './styles/css/main.css';
 import Navigation from './components/navigation';
-// import Buckets from './components/buckets';
+import Buckets from './components/buckets';
 
 class App extends Component {
   constructor(props) {
@@ -14,13 +14,15 @@ class App extends Component {
         description: '',
       },
       buckets: {
-        general: [],
+        general: {},
       },
     };
 
     this.openVideoBucketEntryForm = this.openVideoBucketEntryForm.bind(this);
     this.createBucket = this.createBucket.bind(this);
     this.createVideo = this.createVideo.bind(this);
+    this.createForm = this.createForm.bind(this);
+    this.addVideoToBucket = this.addVideoToBucket.bind(this);
   }
 
   openVideoBucketEntryForm(event, typeOfEntry) {
@@ -34,7 +36,7 @@ class App extends Component {
     this.setState({ formToCreate: newEntryFormToBeOpened });
   }
 
-  createBucket(event) {  /* {  test: { description: '', videos: [] } } */
+  createBucket(event) {  /* {  test: { description: '', videos: [{name, description}] } } */
     event.preventDefault();
 
     this.setState(oldState => {
@@ -60,13 +62,13 @@ class App extends Component {
     this.setState(oldState => {
       const videoName = oldState.input.name;
       const videoDescription = oldState.input.description;
-      const newVideoInformation = {};
+      const newVideoInformation = {}; /* {  test: { description: '', videos: [{name, description}] } } */
       newVideoInformation.name = videoName;
       newVideoInformation.description = videoDescription;
 
-      const newVideoEntry = [...oldState.buckets.general, newVideoInformation];
+      const newVideoEntry = [...oldState.buckets.general.videos, newVideoInformation];
       return {
-        buckets: { general: newVideoEntry },
+        buckets: { general: { description: '', videos: newVideoEntry} },
         formToCreate: ''
       };
     });
@@ -83,14 +85,41 @@ class App extends Component {
     });
   }
 
-  render() {
+  createForm(event) {
     const { formToCreate } = this.state;
+
+    if (formToCreate === 'video') {
+      this.createVideo(event)
+    } else if (formToCreate === 'bucket') {
+      this.createBucket(event)
+    }
+  }
+
+  addVideoToBucket(videoToInsert, newLocation, currentLocation) { /* {  test: { description: '', videos: [{name, description}] } } */
+    this.setState(oldState => {
+      const newBucketList = {};
+      // Remove video from current bucket
+      const currentBucket = oldState.buckets[currentLocation]; // {name, description}
+      newBucketList[currentLocation] = currentBucket.videos.filter(video => video.name !== videoToInsert);
+      newBucketList[newLocation] = [...oldState.buckets[newLocation].videos, videoToInsert];
+
+      const newState = Object.assign({}, oldState.buckets, newBucketList);
+
+      return {
+          buckets: newState
+      };
+  });
+}
+
+  render() {
     return (
       <AppPresentation
         openVideoBucketEntryForm={ this.openVideoBucketEntryForm }
         handleUpdateVideoBucketInputs={ event => this.handleUpdateVideoBucketInputs(event) }
         formToCreate={ this.state.formToCreate }
-        create={ formToCreate === 'video' ? this.createVideo : formToCreate === 'bucket' ? this.createBucket : '' }
+        create={ this.createForm }
+        buckets={ this.state.buckets } /* {  test: { description: '', videos: [name, description] } } */
+        addVideoToBucket={ this.addVideoToBucket }
       />
     );
   }
@@ -102,6 +131,8 @@ const AppPresentation = (props) => {
     create,
     handleUpdateVideoBucketInputs,
     formToCreate,
+    addVideoToBucket,
+    buckets,
   } = props;
 
   return (
@@ -111,6 +142,10 @@ const AppPresentation = (props) => {
         handleUpdateVideoBucketInputs={ handleUpdateVideoBucketInputs }
         formToCreate={ formToCreate }
         create={ create }
+      />
+      <Buckets
+        buckets={ buckets } /* {  test: { description: '', videos: [] } } */
+        addVideoToBucket={ addVideoToBucket }
       />
     </div>
   );
