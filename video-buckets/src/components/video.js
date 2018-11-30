@@ -3,10 +3,10 @@ import React from 'react';
 const Video = props => {
 
     const {
-        video, /* buckets: {  general: {}, test: { description: '', videos: [{name, description}, {}] } } */
+        video,
         currentLocation,
         addVideoToBucket,
-        bucketArr, /* [general, test] */
+        bucketArr,
     } = props;
 
     const bucketList = bucketArr.map(
@@ -25,7 +25,7 @@ const Video = props => {
             <span >{ video.name }</span>
             <select
                 className='options__container'
-                onChange={ event => addVideoToBucket(video.name, event.target.value, currentLocation) }
+                onChange={ event => addVideoToBucket(video, event.target.value, currentLocation) }
                 value={ currentLocation }
             >
                 { bucketList }
