@@ -14,7 +14,10 @@ class App extends Component {
         description: '',
       },
       buckets: {
-        general: {},
+        general: {
+          description: '',
+          videos: []
+        },
       },
     };
 
