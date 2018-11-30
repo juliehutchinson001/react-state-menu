@@ -1,14 +1,14 @@
 import React from 'react';
 import Video from './video';
 
-const Buckets = ({ buckets, addVideoToBucket }) => { /* {  test: { description: '', videos: [name, description] } } */
+const Buckets = ({ buckets, addVideoToBucket }) => {
     const bucketsArray = Object.keys(buckets).map((bucketName, index, bucketArr) => (
             <ListOfBuckets
                 key={ index }
                 bucketName={ bucketName }
-                videos={ buckets[bucketName].videos } /* buckets: {  test: { description: '', videos: [name, description] } } */
+                videos={ buckets[bucketName].videos }
                 addVideoToBucket={ addVideoToBucket }
-                bucketArr={ bucketArr } /* [general, test] */
+                bucketArr={ bucketArr }
             />
         )
     );
@@ -19,8 +19,8 @@ const Buckets = ({ buckets, addVideoToBucket }) => { /* {  test: { description: 
 const ListOfBuckets = (props) => {
 
     const {
-        bucketName, /* buckets: {  test: { description: '', videos: [{name, description}, {}] } } */
-        bucketArr, /* [general, test] */
+        bucketName,
+        bucketArr,
         videos,
         addVideoToBucket,
     } = props;
@@ -28,10 +28,10 @@ const ListOfBuckets = (props) => {
     const bucketsArray = videos.map((video, index) => (
         <Video
             key={ index }
-            video={ video } /* buckets: {  general: {}, test: { description: '', videos: [{name, description}, {}] } } */
+            video={ video }
             currentLocation={ bucketName }
             addVideoToBucket={ addVideoToBucket }
-            bucketArr={ bucketArr } /* [general, test] */
+            bucketArr={ bucketArr }
         />
     ));
 

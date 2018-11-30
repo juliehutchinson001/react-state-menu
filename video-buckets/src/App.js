@@ -39,7 +39,7 @@ class App extends Component {
     this.setState({ formToCreate: newEntryFormToBeOpened });
   }
 
-  createBucket(event) {  /* {  test: { description: '', videos: [{name, description}] } } */
+  createBucket(event) {
     event.preventDefault();
 
     this.setState(oldState => {
@@ -65,7 +65,7 @@ class App extends Component {
     this.setState(oldState => {
       const videoName = oldState.input.name;
       const videoDescription = oldState.input.description;
-      const newVideoInformation = {}; /* {  test: { description: '', videos: [{name, description}] } } */
+      const newVideoInformation = {};
       newVideoInformation.name = videoName;
       newVideoInformation.description = videoDescription;
 
@@ -98,11 +98,11 @@ class App extends Component {
     }
   }
 
-  addVideoToBucket(videoToInsert, newLocation, currentLocation) { /* {  test: { description: '', videos: [{name, description}] } } */
+  addVideoToBucket(videoToInsert, newLocation, currentLocation) {
     this.setState(oldState => {
       const newBucketList = {};
-      // Remove video from current bucket
-      const currentBucket = oldState.buckets[currentLocation]; // {name, description}
+      const currentBucket = oldState.buckets[currentLocation];
+
       newBucketList[currentLocation] = currentBucket.videos.filter(video => video.name !== videoToInsert);
       newBucketList[newLocation] = [...oldState.buckets[newLocation].videos, videoToInsert];
 
@@ -121,7 +121,7 @@ class App extends Component {
         handleUpdateVideoBucketInputs={ event => this.handleUpdateVideoBucketInputs(event) }
         formToCreate={ this.state.formToCreate }
         create={ this.createForm }
-        buckets={ this.state.buckets } /* {  test: { description: '', videos: [name, description] } } */
+        buckets={ this.state.buckets }
         addVideoToBucket={ this.addVideoToBucket }
       />
     );
@@ -147,7 +147,7 @@ const AppPresentation = (props) => {
         create={ create }
       />
       <Buckets
-        buckets={ buckets } /* {  test: { description: '', videos: [] } } */
+        buckets={ buckets }
         addVideoToBucket={ addVideoToBucket }
       />
     </div>
