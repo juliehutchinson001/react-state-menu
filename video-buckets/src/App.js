@@ -24,6 +24,8 @@ class App extends Component {
     this.openVideoBucketEntryForm = this.openVideoBucketEntryForm.bind(this);
     this.createBucket = this.createBucket.bind(this);
     this.createVideo = this.createVideo.bind(this);
+    this.createVideo = this.createVideo.bind(this);
+    this.deleteVideo = this.deleteVideo.bind(this);
     this.createForm = this.createForm.bind(this);
     this.addVideoToBucket = this.addVideoToBucket.bind(this);
   }
@@ -102,7 +104,6 @@ class App extends Component {
     }
   }
 
-//                 {name, descrp}, name:'buck', name: 'general'
   addVideoToBucket(videoToInsert, newLocation, currentLocation) {
     this.setState(oldState => {
       const newBucketList = {};
@@ -117,10 +118,25 @@ class App extends Component {
 
       const newState = Object.assign({}, oldState.buckets, newBucketList);
       return {
-          buckets: newState
+        buckets: newState
       };
-  });
-}
+    });
+  }
+
+  deleteVideo(event, currentLocation) {
+    const videoToDelete = event.target.dataset.del;
+    const newBucketList = {};
+    this.setState(oldState => {
+      const currentBucket = oldState.buckets[currentLocation];
+      newBucketList[currentLocation] = {}
+
+      newBucketList[currentLocation].videos = currentBucket.videos.filter(video => video.name !== videoToDelete);
+      const newState = Object.assign({}, oldState.buckets, newBucketList);
+      return {
+        buckets: newState
+      };
+    })
+  }
 
   render() {
     return (
@@ -131,6 +147,7 @@ class App extends Component {
         create={ this.createForm }
         buckets={ this.state.buckets }
         addVideoToBucket={ this.addVideoToBucket }
+        deleteVideo={ this.deleteVideo }
       />
     );
   }
@@ -144,6 +161,7 @@ const AppPresentation = (props) => {
     formToCreate,
     addVideoToBucket,
     buckets,
+    deleteVideo,
   } = props;
 
   return (
@@ -157,6 +175,7 @@ const AppPresentation = (props) => {
       <Buckets
         buckets={ buckets }
         addVideoToBucket={ addVideoToBucket }
+        deleteVideo={ deleteVideo }
       />
     </div>
   );
