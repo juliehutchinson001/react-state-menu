@@ -1,7 +1,7 @@
 import React from 'react';
 import Video from './video';
 
-const Buckets = ({ buckets, addVideoToBucket }) => {
+const Buckets = ({ buckets, addVideoToBucket, deleteVideo }) => {
     const bucketsArray = Object.keys(buckets).map((bucketName, index, bucketArr) => (
             <ListOfBuckets
                 key={ index }
@@ -9,6 +9,7 @@ const Buckets = ({ buckets, addVideoToBucket }) => {
                 videos={ buckets[bucketName].videos }
                 addVideoToBucket={ addVideoToBucket }
                 bucketArr={ bucketArr }
+                deleteVideo={ deleteVideo }
             />
         )
     );
@@ -23,6 +24,7 @@ const ListOfBuckets = (props) => {
         bucketArr,
         videos,
         addVideoToBucket,
+        deleteVideo,
     } = props;
 
     const bucketsArray = videos.map((video, index) => (
@@ -32,6 +34,7 @@ const ListOfBuckets = (props) => {
             currentLocation={ bucketName }
             addVideoToBucket={ addVideoToBucket }
             bucketArr={ bucketArr }
+            deleteVideo={ deleteVideo }
         />
     ));
 
