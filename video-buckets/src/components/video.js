@@ -7,6 +7,7 @@ const Video = props => {
         currentLocation,
         addVideoToBucket,
         bucketArr,
+        deleteVideo,
     } = props;
 
     const bucketList = bucketArr.map(
@@ -23,6 +24,13 @@ const Video = props => {
     return (
         <li className='options-video'>
             <span >{ video.name }</span>
+            <button
+                type='button'
+                data-del={ video.name }
+                onClick={ event => deleteVideo(event, currentLocation) }
+            >
+                Delete
+            </button>
             <select
                 className='options__container'
                 onChange={ event => addVideoToBucket(video, event.target.value, currentLocation) }
