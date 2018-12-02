@@ -140,45 +140,22 @@ class App extends Component {
 
   render() {
     return (
-      <AppPresentation
-        openVideoBucketEntryForm={ this.openVideoBucketEntryForm }
-        handleUpdateVideoBucketInputs={ event => this.handleUpdateVideoBucketInputs(event) }
-        formToCreate={ this.state.formToCreate }
-        create={ this.createForm }
-        buckets={ this.state.buckets }
-        addVideoToBucket={ this.addVideoToBucket }
-        deleteVideo={ this.deleteVideo }
-      />
+      <div className="App">
+        <Navigation
+          openVideoBucketEntryForm={ this.openVideoBucketEntryForm }
+          handleUpdateVideoBucketInputs={ event => this.handleUpdateVideoBucketInputs(event) }
+          formToCreate={ this.state.formToCreate }
+          create={ this.createForm }
+        />
+        <Buckets
+          buckets={ this.state.buckets }
+          addVideoToBucket={ this.addVideoToBucket }
+          deleteVideo={ this.deleteVideo }
+        />
+      </div>
     );
   }
-}
 
-const AppPresentation = (props) => {
-  const {
-    openVideoBucketEntryForm,
-    create,
-    handleUpdateVideoBucketInputs,
-    formToCreate,
-    addVideoToBucket,
-    buckets,
-    deleteVideo,
-  } = props;
-
-  return (
-    <div className="App">
-      <Navigation
-        openVideoBucketEntryForm={ openVideoBucketEntryForm }
-        handleUpdateVideoBucketInputs={ handleUpdateVideoBucketInputs }
-        formToCreate={ formToCreate }
-        create={ create }
-      />
-      <Buckets
-        buckets={ buckets }
-        addVideoToBucket={ addVideoToBucket }
-        deleteVideo={ deleteVideo }
-      />
-    </div>
-  );
 }
 
 export default App;
