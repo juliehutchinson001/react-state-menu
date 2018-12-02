@@ -13,7 +13,7 @@ const Video = props => {
     const bucketList = bucketArr.map(
         (eachBucket, bucketId) => (
             <option
-                key={ bucketId }
+                key={ eachBucket }
                 value={ eachBucket }
             >
                 { eachBucket }
